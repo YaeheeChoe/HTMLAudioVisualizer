@@ -35,11 +35,11 @@ file.addEventListener('change',function(){
     analyser = audioCtx.createAnalyser();
     audioSource.connect(analyser);
     analyser.connect(audioCtx.destination);
-    analyser.fftSize = 512;
+    analyser.fftSize = 2048;
     const bufferLength = analyser.frequencyBinCount;
     const dataArray =new Uint8Array(bufferLength);
 
-    const barWidth =55;
+    const barWidth =5;
    
     let barHeight;
     let x;
@@ -61,9 +61,9 @@ function drawVisualiser(bufferLength,x,barWidth,barHeight,dataArray){
         barHeight =dataArray[i]*1.5;
         ctx.save();
         ctx.translate(canvas.width/2,canvas.height/2);
-        ctx.rotate(i+Math.PI *4/bufferLength);
-        const hue = i*15;
-        ctx.fillStyle = 'hsl(' +hue+',100%,50%)';
+        ctx.rotate(i*Math.PI *4/bufferLength);
+        const hue = i * 0.3;
+        ctx.fillStyle = 'hsl(' +hue+',100%,'+barHeight/3+'%)';
         ctx.fillRect(0,0,barWidth,barHeight);
         x += barWidth;
         ctx.restore();
