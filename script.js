@@ -13,15 +13,11 @@ const ctx = canvas.getContext('2d');
 
 let audioSource;
 let analyser;
-container.addEventListener('click',function(){
-    
-});
-
 file.addEventListener('change',function(){
     const files = this.files;
     RegisterAudio(URL.createObjectURL(files[0]));
-    audio1.load();
-    audio1.play();
+    //audio1.load();
+    //audio1.play();
     playVisualiser();
 });
 function RegisterAudio(audioURL)
