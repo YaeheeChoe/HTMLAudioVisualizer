@@ -4,6 +4,7 @@ const button1 = document.getElementById('button1');
 const container = document.getElementById('container');
 const canvas = document.getElementById('canvas1');
 const file = document.getElementById('fileupload');
+const audio1 = document.getElementById('audio1');
 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
@@ -12,22 +13,18 @@ const ctx = canvas.getContext('2d');
 
 let audioSource;
 let analyser;
-async function audioToBase64(audioFile) {
-    return new Promise((resolve, reject) => {
-      let reader = new FileReader();
-      reader.onerror = reject;
-      reader.onload = (e) => resolve(e.target.result);
-      reader.readAsDataURL(audioFile);
-    });
-  }
 container.addEventListener('click',function(){
     
 });
 
 file.addEventListener('change',function(){
     const files = this.files;
-    const audio1 = document.getElementById('audio1');
-    audio1.src = URL.createObjectURL(files[0]);
+    RegisterAudio(URL.createObjectURL(files[0]));
+    animateVisualiser();
+});
+function RegisterAudio(audioURL)
+{
+    audio1.src = audioURL;
     audio1.load();
     audio1.play();
     const audioCtx = new AudioContext();
@@ -36,6 +33,9 @@ file.addEventListener('change',function(){
     audioSource.connect(analyser);
     analyser.connect(audioCtx.destination);
     analyser.fftSize = 2048;
+}
+function animateVisualiser()
+{
     const bufferLength = analyser.frequencyBinCount;
     const dataArray =new Uint8Array(bufferLength);
 
@@ -53,8 +53,7 @@ file.addEventListener('change',function(){
     }
     
     animate();
-});
-
+}
 function drawVisualiser(bufferLength,x,barWidth,barHeight,dataArray){
    
     for(let i= 0; i< bufferLength; i++){
