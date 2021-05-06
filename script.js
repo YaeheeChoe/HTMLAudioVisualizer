@@ -20,13 +20,13 @@ container.addEventListener('click',function(){
 file.addEventListener('change',function(){
     const files = this.files;
     RegisterAudio(URL.createObjectURL(files[0]));
-    animateVisualiser();
+    audio1.load();
+    audio1.play();
+    playVisualiser();
 });
 function RegisterAudio(audioURL)
 {
     audio1.src = audioURL;
-    audio1.load();
-    audio1.play();
     const audioCtx = new AudioContext();
     audioSource =  audioCtx.createMediaElementSource(audio1);
     analyser = audioCtx.createAnalyser();
@@ -34,7 +34,7 @@ function RegisterAudio(audioURL)
     analyser.connect(audioCtx.destination);
     analyser.fftSize = 2048;
 }
-function animateVisualiser()
+function playVisualiser()
 {
     const bufferLength = analyser.frequencyBinCount;
     const dataArray =new Uint8Array(bufferLength);
